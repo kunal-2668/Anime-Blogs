@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    .container {
+      display: table;
+      margin: auto;
+    }
+    p{
+    text-align: justify;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h2>{{j.Title}}</h2>
+          <img src="{{j.Choose_Image.path}}" width="400px" height="80vh" />
+        </div>
+        <div class="col-md-8 text-justify">
+          <h3>Description -</h3>
+          <p>{{j.Description|safe}}</p>
+          By - <b>{{j.Your_Name}} on {{j.time}}</b>
+          <hr />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

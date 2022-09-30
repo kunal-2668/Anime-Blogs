@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+<title>Contacts</title>
+<style>
+  body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-image: url("{% static 'bg/contacts.jpg' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    backdrop-filter: blur(7px);
+  }
+
+  h2 {
+    font-size: 4rem;
+  }
+
+  .container.contact {
+    margin-top: 20px;
+  }
+
+  .back {
+    float: right;
+  }
+</style>
+
+<section>
+  <div class="container contact">
+    <h2>
+      {% if user.username == 'admin' %}
+      Contacts
+      <a href="{% url 'Edit' %}" class="btn btn-secondary back"><i class="fa-solid fa-backward"></i></a>
+    </h2>
+    <hr />
+    <table class="table table-striped bg-transparent table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Number</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in data %}
+        <tr>
+          <td>{{i.id}}</td>
+          <td>{{i.name}}</td>
+          <td>{{i.email}}</td>
+          <td>{{i.number}}</td>
+          <td>{{i.address}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
