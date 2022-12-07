@@ -1,6 +1,10 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
 {% load static %}
 {% load crispy_forms_tags %}
+
+
 <style>
   body {
     padding: 0;
@@ -32,6 +36,15 @@
   h2.h2 {
     font-size: 4rem;
   }
+  .desc{
+    margin: 80px auto;
+  }
+  .img{
+    transition: 0.5s;
+  }
+  .img:hover{
+    transform: translate(1.1);
+  }
 </style>
 <title>Pro Blogs</title>
 
@@ -52,16 +65,16 @@
       <div class="col-md-4">
         <br />
         <h2>{{j.Title}}</h2>
-        <img src="{{j.Choose_Image.url}}" style="width: 100%" />
+        <img src="{{j.Choose_Image.url}}" class="img" style="width: 70%" />
       </div>
       <div class="col-md-8">
         <br />
-        <h3>Description -
-          <a href="{% url 'create' j.id %}" class="btn btn-dark">Download</a>
-        </h3>
-        <p class="text-justify">{{j.Description|safe}}</p>
+        <h3 class="desc"></h3>
+          <a href="{% url 'create' j.id %}" class="btn btn-dark" hidden>Download</a>
+        <p class="text-justify ">{{j.Description|safe|slice:':600'}} <a href="{% url 'read' j.id %}">Read More..</a></p>
+        <br>
         By - <b>{{j.Your_Name}} on {{j.time}}</b>
-        <hr />
+        <hr>
       </div>
     </div>
     {% endfor %}
@@ -100,4 +113,11 @@
   </div>
 </div>
 
+{% else %}
+<script>
+  location.reload();
+</script>
+
+
+{% endif %}
 {% endblock %}

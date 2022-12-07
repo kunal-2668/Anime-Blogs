@@ -52,6 +52,13 @@
         transition: 0.5s;
 
     }
+    .search {
+        transition: 0.5s;
+        max-width: 36px;
+    }
+    .search:hover{
+        max-width: 144px;
+    }
 </style>
 
 <body>
@@ -83,6 +90,15 @@
                 </div>
                 </ul>
                 {% if user.is_authenticated %}
+                <div class="search">
+                    <form action="{% url 'search' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group search">
+                        <input type="text" name="search" placeholder="Search Here" class="form-control">                            
+                        <button type="submit"class="btn btn-info" hidden><i class="fa-solid fa-magnifying-glass"></i></button>   
+                        </div>
+                        </form>
+                </div>
                 <p><a class="nav-link" href="{% url 'change_password' %}"><i class="fa-solid fa-user"></i> {{user}}
                 </p></a>
                 <a href="{% url 'logout' %}" class="btn btn-danger"><i class="fa-solid fa-power-off"></i></a>

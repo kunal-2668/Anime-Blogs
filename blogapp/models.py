@@ -1,6 +1,6 @@
 from django.db import models
 from ckeditor.fields import RichTextField
-
+from cloudinary.models import CloudinaryField
 # Create your models here.
 
 class Contact(models.Model):
@@ -15,7 +15,8 @@ class Contact(models.Model):
 
 class Blog(models.Model):
     Title = models.CharField(max_length=40)
-    Choose_Image = models.ImageField(upload_to = 'images')
+    # Choose_Image = models.ImageField(upload_to = 'images')
+    Choose_Image = CloudinaryField('image')
     # Description = models.TextField(max_length=10000)
     Description = RichTextField(blank=True,null=True)
     Your_Name = models.CharField(max_length=40)

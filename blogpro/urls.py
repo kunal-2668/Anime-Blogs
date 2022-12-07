@@ -38,5 +38,7 @@ urlpatterns = [
     path('s',views.signupform,name='signupform'),
     path('l',views.loginform,name='loginform'),
     path(r'^password/$', views.change_password, name='change_password'),
+    path('search', views.search, name='search'),
+    path('read<int:id>', views.readmore, name='read'),
 
 ]+ static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

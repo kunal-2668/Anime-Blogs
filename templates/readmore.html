@@ -32,12 +32,12 @@
   h2.h2 {
     font-size: 4rem;
   }
+
 </style>
 <title>Pro Blogs</title>
 
 <section class="Blog">
   <div class="container c1">
-    <h2 class="h2">Blogs...</h2>
     {% if messages %}
     {% for i in messages %}
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -46,25 +46,22 @@
     </div>
     {% endfor %}
     {% endif %}
-    <hr />
-    {% for j in blog %}
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-lg-4">
         <br />
         <h2>{{j.Title}}</h2>
         <img src="{{j.Choose_Image.url}}" style="width: 100%" />
       </div>
-      <div class="col-md-8">
+      <div class="col-lg-8">
         <br />
-        <h3>Description -
-          <a href="{% url 'create' j.id %}" class="btn btn-dark">Download</a>
+        <h3 class="desc">Description -
+          <a href="{% url 'create' j.id %}" class="btn btn-dark" hidden>Download</a>
         </h3>
-        <p class="text-justify">{{j.Description|safe}}</p>
+        <p class="text-justify ">{{j.Description|safe}} </p>
         By - <b>{{j.Your_Name}} on {{j.time}}</b>
         <hr />
       </div>
     </div>
-    {% endfor %}
   </div>
 </section>
 

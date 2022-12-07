@@ -10,14 +10,33 @@ from xhtml2pdf import pisa
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
-
+# from django.views.decorators.cache import never_cache
+from django.views.decorators.cache import cache_control
 
 # Create your views here.
-    
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='login')
-def home(request):
-    blog = Blog.objects.all()
-    return render (request, 'index.html',{'blog':blog})
+def home(request): 
+    if request.user.is_authenticated:
+        blog = Blog.objects.all()
+        return render (request, 'hometemp.html',{'blog':blog})
+    else:
+        return redirect('main')
+
+
+def readmore(request,id):
+    j = Blog.objects.get(id=id)
+    return render (request, 'readmore.html',{'j':j})
+
+
+def search(request):
+    searchinput = request.POST['search']
+    if Blog.objects.filter(Title__contains = searchinput).exists():
+        blog = Blog.objects.filter(Title__contains = searchinput)
+        return render (request, 'index.html',{'blog':blog})
+    else:
+        messages.info(request,"No Search Results")
+        return redirect('home')
 
 
 def signup(request):
@@ -36,9 +55,14 @@ def signup(request):
             elif User.objects.filter(email=email).exists():
                 messages.info(request,'Email already exists')
                 return redirect('home')
-
             else:
-                user = User.objects.create_user(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
+                user = User.objects.create_user(
+                    first_name=first_name,
+                    last_name=last_name,
+                    username=username,
+                    email=email,
+                    password=password
+                )
                 user.save()
                 return redirect('home')
         else:
@@ -47,7 +71,7 @@ def signup(request):
     else:
         return render(request,'index.html')
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def login(request):
     if request.method == "POST":
         username = request.POST['lusername']
@@ -64,6 +88,15 @@ def login(request):
     else:
         return render(request,'main.html') 
 
+# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+# def logout(request):
+#     request.session.flush()
+#     if hasattr(request, 'user'):
+#         from django.contrib.auth.models import AnonymousUser
+#         request.user = AnonymousUser()
+#         return redirect('login') 
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def logout(request):
     auth.logout(request)
     return redirect('main')
@@ -73,6 +106,7 @@ def logout(request):
 def addblog(request):
     if request.method == "GET":
         form = Addblog()
+        print(form)
         return render(request,'addblog.html',{'form':form})
     else:
         form = Addblog(request.POST,request.FILES)
@@ -80,7 +114,7 @@ def addblog(request):
             form.save()
             return redirect('home')
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def main(request):
     return render (request, 'main.html')
 
@@ -178,7 +212,7 @@ def signupform(request):
             return redirect('login')
 
         return redirect('signupform')
-        
+
 
 def change_password(request):
     if request.method == 'POST':
@@ -196,7 +230,6 @@ def change_password(request):
 
 
 def loginform(request):
-
     try:
         if request.method == 'GET':
             form = AuthenticationForm(request)
@@ -211,6 +244,7 @@ def loginform(request):
                 return redirect('home')
             messages.info(request,'Invalid username/password')
             return redirect('loginform')
+
     except Exception as e:
         print(e)
         return HttpResponse(e)
