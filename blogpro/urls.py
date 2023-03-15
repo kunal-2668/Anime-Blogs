@@ -21,8 +21,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.main,name="main"),
-    path('home',views.home,name='home'),
+    path('main',views.main,name="main"),
+    path('',views.home,name='home'),
     path('signup',views.signup,name='signup'),
     path('login',views.login,name='login'),
     path('logout',views.logout,name='logout'),
@@ -40,5 +40,8 @@ urlpatterns = [
     path(r'^password/$', views.change_password, name='change_password'),
     path('search', views.search, name='search'),
     path('read<int:id>', views.readmore, name='read'),
+    path('addprofile', views.add_profile_photo, name='addprofile'),
+    path('Profile', views.showprofile_photo, name='Profile'),
+    path('updateprofile<int:id>', views.update_profile, name='updateprofile'),
 
 ]+ static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

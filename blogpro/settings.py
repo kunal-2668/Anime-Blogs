@@ -9,11 +9,8 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
 from pathlib import Path
 import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure--nj0itn8bvkdg$k44h2fq1%auxlzgy9_!00cxei0wsh$yj76#x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -45,6 +42,7 @@ INSTALLED_APPS = [
     "ckeditor",
     'cloudinary',
 ]
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -126,6 +124,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT="staticfiles"
+
 MEDIA_ROOT = BASE_DIR/'media'
 
 MEDIA_URL = '/media/'
@@ -140,9 +140,26 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-cloudinary.config( 
-  cloud_name = "kunalserver", 
-  api_key = "632154883829314", 
+cloudinary.config(
+  cloud_name = "kunalserver",
+  api_key = "632154883829314",
   api_secret = "cqJiLCwR6-GzDJpKZ4ZI9HfAcms",
+  api_proxy = "http://proxy.server:3128",
+  # change if not working
   secure = True
+
 )
+
+import cloudinary.uploader
+import cloudinary.api
+
+
+
+
+
+
+
+
+
+
+

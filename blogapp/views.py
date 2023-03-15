@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Blog,Contact
+from .models import Blog,Contact,Profile_photo
 from .forms import Addblog
 from django.http import HttpResponse
 from django.template.loader import get_template
@@ -14,19 +14,18 @@ from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.views.decorators.cache import cache_control
 
 # Create your views here.
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@login_required(login_url='login')
-def home(request): 
-    if request.user.is_authenticated:
-        blog = Blog.objects.all()
-        return render (request, 'hometemp.html',{'blog':blog})
-    else:
-        return redirect('main')
+
+def home(request):
+    blog = Blog.objects.order_by("?")
+    return render (request, 'hometemp.html',{'blog':blog})
 
 
 def readmore(request,id):
-    j = Blog.objects.get(id=id)
-    return render (request, 'readmore.html',{'j':j})
+    if request.user.is_authenticated:
+        j = Blog.objects.get(id=id)
+        return render (request, 'readmore.html',{'j':j})
+    else:
+        return redirect('login')
 
 
 def search(request):
@@ -51,10 +50,10 @@ def signup(request):
         if password == password2:
             if User.objects.filter(username=username).exists():
                 messages.info(request,'Username already exists')
-                return redirect('home')
+                return redirect('main')
             elif User.objects.filter(email=email).exists():
                 messages.info(request,'Email already exists')
-                return redirect('home')
+                return redirect('main')
             else:
                 user = User.objects.create_user(
                     first_name=first_name,
@@ -64,7 +63,7 @@ def signup(request):
                     password=password
                 )
                 user.save()
-                return redirect('home')
+                return redirect('main')
         else:
             messages.info(request,'Try Matching Password')
             return redirect('home')
@@ -84,9 +83,9 @@ def login(request):
             return redirect('home')
         else:
             messages.info(request,'Invalid username/password')
-            return redirect('login')     
+            return redirect('login')
     else:
-        return render(request,'main.html') 
+        return render(request,'main.html')
 
 # @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 # def logout(request):
@@ -94,19 +93,18 @@ def login(request):
 #     if hasattr(request, 'user'):
 #         from django.contrib.auth.models import AnonymousUser
 #         request.user = AnonymousUser()
-#         return redirect('login') 
+#         return redirect('login')
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def logout(request):
     auth.logout(request)
-    return redirect('main')
+    return redirect('home')
 
 
 @login_required(login_url='login')
 def addblog(request):
     if request.method == "GET":
         form = Addblog()
-        print(form)
         return render(request,'addblog.html',{'form':form})
     else:
         form = Addblog(request.POST,request.FILES)
@@ -157,7 +155,7 @@ def Edit(request):
     blog = Blog.objects.all()
     return render(request,'admin_panel.html',{'blog':blog})
 
-    
+
 def edit_blog(request,id):
     if request.method == "GET":
         data = Blog.objects.get(id=id)
@@ -195,9 +193,9 @@ def adminlogin(request):
             return redirect('admin_panel')
         else:
             messages.info(request,'Invalid username/password')
-            return redirect('home')     
+            return redirect('home')
     else:
-        return render(request,'admin_panellogin.html') 
+        return render(request,'admin_panellogin.html')
 
 
 def signupform(request):
@@ -248,3 +246,45 @@ def loginform(request):
     except Exception as e:
         print(e)
         return HttpResponse(e)
+
+
+def add_profile_photo(request):
+    if request.user.is_authenticated:
+        if Profile_photo.objects.filter(user_name__exact=request.user).exists():
+            return redirect('Profile')
+        elif request.method == "POST":
+            user_name = request.user
+            profile = request.FILES['profile']
+
+            Profile_photo.objects.create(user_name=user_name,profile=profile)
+
+            return redirect('Profile')
+        else:
+            return render(request,'add_profile_photo.html')
+    else:
+        return redirect('main')
+
+def showprofile_photo(request):
+    if request.user.is_authenticated:
+        if Profile_photo.objects.filter(user_name__exact=request.user).exists():
+            data = Profile_photo.objects.get(user_name__exact=request.user)
+            blog = Blog.objects.filter(Your_Name__exact=request.user)
+            return render(request,'Profile.html',{'data':data,'blog':blog})
+        else:
+            return redirect('addprofile')
+    else:
+        return redirect('main')
+
+
+def update_profile(request,id):
+    if Profile_photo.objects.filter(user_name__exact=request.user).exists():
+            photo = Profile_photo.objects.get(id = id)
+            if request.method == "POST":
+                profile = request.FILES['profile']
+                Profile_photo(id=id,user_name=photo.user_name,profile=profile).save()
+                return redirect('Profile')
+            else:
+                return render(request,'add_profile_photo.html')
+
+    else :
+        return redirect('addprofile')

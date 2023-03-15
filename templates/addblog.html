@@ -28,8 +28,8 @@
         <hr>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{form.media}}
-            {{form|crispy}}
+            {{ form.media|safe }}
+            {{ form|crispy }}
             <br>
             <button type="submit" class="btn btn-secondary">Add Blog</button>
         </form>

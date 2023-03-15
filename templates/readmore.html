@@ -33,9 +33,12 @@
     font-size: 4rem;
   }
 
+.imgread{
+    border-radius:15px;
+}
 </style>
-<title>Pro Blogs</title>
-
+<title>Anime Blogs</title>
+{% if user.is_authenticated %}
 <section class="Blog">
   <div class="container c1">
     {% if messages %}
@@ -47,14 +50,14 @@
     {% endfor %}
     {% endif %}
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col-lg-4 text-center mt-5">
         <br />
-        <h2>{{j.Title}}</h2>
-        <img src="{{j.Choose_Image.url}}" style="width: 100%" />
+
+        <img src="{{j.Choose_Image.url}}" class="imgread" style="width: 100%" />
       </div>
       <div class="col-lg-8">
         <br />
-        <h3 class="desc">Description -
+        <h3 class="desc"><h2>{{j.Title}}</h2>
           <a href="{% url 'create' j.id %}" class="btn btn-dark" hidden>Download</a>
         </h3>
         <p class="text-justify ">{{j.Description|safe}} </p>
@@ -96,5 +99,7 @@
     </div>
   </div>
 </div>
-
+{% else %}
+<h3 align=center>Please Login</h3>
+{% endif %}
 {% endblock %}

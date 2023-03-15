@@ -20,6 +20,8 @@
 <style>
     * {
         font-family: 'Raleway', sans-serif;
+        margin:0;
+        padding:0;
     }
 
     nav {
@@ -52,13 +54,23 @@
         transition: 0.5s;
 
     }
-    .search {
-        transition: 0.5s;
-        max-width: 36px;
-    }
-    .search:hover{
-        max-width: 144px;
-    }
+    /*.search {*/
+    /*    transition: 0.5s;*/
+    /*    max-width: 36px;*/
+    /*}*/
+    /*.search:hover{*/
+    /*    max-width: 144px;*/
+    /*}*/
+
+    i.fa-brands.fa-instagram {
+    font-size: 50px;
+}
+i.fa-brands.fa-linkedin{
+    font-size: 50px;
+}
+i.fa-brands.fa-snapchat {
+    font-size: 50px;
+}
 </style>
 
 <body>
@@ -67,7 +79,7 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-transparent">
             <div class="container n1">
-                <a class="navbar-brand" href="/home"><i class="fa-solid fa-house"></i></a>
+                <a class="navbar-brand" href="{% url 'home' %}"><i class="fa-solid fa-house"></i></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -85,7 +97,13 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/Edit">Edit</a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Profile">Profile</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'main' %}">Login</a>
+                        </li>
                         {% endif %}
                 </div>
                 </ul>
@@ -94,14 +112,14 @@
                     <form action="{% url 'search' %}" method="post">
                         {% csrf_token %}
                         <div class="form-group search">
-                        <input type="text" name="search" placeholder="Search Here" class="form-control">                            
-                        <button type="submit"class="btn btn-info" hidden><i class="fa-solid fa-magnifying-glass"></i></button>   
+                        <input type="text" name="search" placeholder="Search Here" class="form-control">
+                        <button type="submit"class="btn btn-info" hidden><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
                         </form>
                 </div>
-                <p><a class="nav-link" href="{% url 'change_password' %}"><i class="fa-solid fa-user"></i> {{user}}
+                <p><a class="nav-link" href="{% url 'Profile' %}"><i class="fa-solid fa-user"></i> {{user}}
                 </p></a>
-                <a href="{% url 'logout' %}" class="btn btn-danger"><i class="fa-solid fa-power-off"></i></a>
+                <a href="{% url 'logout' %}" class="btn btn-outline-danger"><i class="fa-solid fa-power-off"></i></a>
                 &nbsp;
                 {% endif %}
             </div>
@@ -110,8 +128,14 @@
     {% block content %}
 
     {% endblock %}
-    <footer class="py-3 my-4">
-        <p class="text-center text-muted">©2022 KunaL</p>
+    <footer class=" container py-3 my-4">
+    <hr>
+        <p class="text-center text-muted">
+        <a href="https://www.instagram.com/kunal_.2668/" target="_blank" ><i class="fa-brands fa-instagram"></i></a> &nbsp;
+        <a href="https://www.snapchat.com/add/kunal_2668?share_id=bsTNLzKCY2k&locale=en-US" target="_blank" ><i class="fa-brands fa-snapchat"></i></a> &nbsp;
+        <a href="https://www.linkedin.com/in/kunal-82921a211" target="_blank"><i class="fa-brands fa-linkedin"></i></a> <br><br>
+
+        © Anime Blogs by KunaL</p>
     </footer>
 </body>
 

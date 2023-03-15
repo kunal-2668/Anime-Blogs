@@ -22,7 +22,18 @@ class Blog(models.Model):
     Your_Name = models.CharField(max_length=40)
     time = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+      ordering = ['-time']
+
     def __str__(self):
         return self.Title
 
-        
+class Profile_photo(models.Model):
+    user_name = models.CharField(max_length=255)
+    profile = CloudinaryField('image')
+
+    def __str__(self):
+        return self.user_name
+
+
+

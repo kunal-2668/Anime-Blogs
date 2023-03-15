@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-image: url("{% static 'bg/homebg.jpg' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    backdrop-filter: blur(20px);
+  }
+
+  .c1{
+    margin: 100px auto;
+  }
+</style>
+
+<div class="container c1">
+    <h1>Add/Update Profile Photo</h1>
+    <hr>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="">Add Profile Photo</label>
+            <input type="file" name="profile" id="" class="form-control" required> <br>
+            <button type="submit" class="btn btn-success">Add</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
