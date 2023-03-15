@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<title>{{user}} - Profile</title>
+<style>
+
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-image: url("{% static 'bg/homebg.jpg' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    backdrop-filter: blur(20px);
+  }
+/*img.profile_photo{*/
+/*    width: 100%;*/
+/*}*/
+
+img.profile_photo{
+    width: 300px;
+    height: 300px;
+    border-radius:100%;
+    object-fit: cover;
+    margin: auto;
+    display:table;
+
+}
+
+/*.round {*/
+/*    position: relative;*/
+/*    width: 300px;*/
+/*    height: 300px;*/
+    /*object-fit: cover;*/
+    /*overflow: hidden;*/
+/*    border-radius: 50%;*/
+/*    background-color: white;*/
+/*    margin: auto;*/
+/*}*/
+.info{
+    font-size: 2rem;
+}
+.img.img{
+    transition: 0.5s;
+    border-radius:15px;
+    box-shadow: 9px 8px 20px 0px black;
+    width: 180px;
+    height: 380px;
+    border-radius: 20px;
+    object-fit: cover;
+  }
+  .img:hover{
+    transform: scale(1.1);
+    box-shadow: 9px 8px 40px 0px black;
+  }
+   h2 {
+    font-size: 3rem;
+  }
+</style>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="round">
+                <a href="{% url 'updateprofile' data.id %}" >
+                <img src="{{data.profile.url}}" class="profile_photo" alt=""> </a>
+            </div>
+        </div>
+        <div class="col-lg-6 info">
+            <!--<div class="mt-5">-->
+            <!--    <P><b>User</b> - {{user}}</P>-->
+            <!--    <P><b>Name</b> - {{user.first_name}} {{user.last_name}}</P>-->
+            <!--    <P><b>Email</b> - {{user.email}}</P>-->
+            <!--    <p><a href="{% url 'updateprofile' data.id %}"><button class="btn btn-outline-dark">Edit Photo</button></a>&nbsp;-->
+            <!--    <a href="{% url 'change_password' %}"><button class="btn btn-outline-danger">Change Password</button></a></p>-->
+
+            <!--</div>-->
+            <div class="mt-5">
+                <P>{{user}}</P>
+                <!--<P>{{user.first_name}} {{user.last_name}}</P>-->
+                <P>{{user.email}}</P>
+                <p><a href="{% url 'updateprofile' data.id %}"><button class="btn btn-outline-dark">Edit Photo</button></a>&nbsp;
+                <a href="{% url 'change_password' %}"><button class="btn btn-outline-danger">Change Password</button></a></p>
+
+            </div>
+        </div>
+    </div>
+        <div class="row mt-5">
+            <hr>
+        {% for j in blog %}
+      <div class="col-lg-4 text-center">
+        <br />
+        <a href="{% url 'read' j.id %}">
+        <img src="{{j.Choose_Image.url}}" class="img" style="width: 65%" /> </a>
+        <br><br>
+        <h2>{{j.Title}}</h2>
+         <a href="{% url 'read' j.id %}">
+        Read about {{j.Title}}</a>
+        <br>
+        By - <b>{{j.Your_Name}}</b>
+    </div>
+    {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends 'base.html' %} {% block content %} {% load static %} {% load crispy_forms_tags %}
+<style>
+  body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-image: url("{% static 'bg/homebg.jpg' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    backdrop-filter: blur(7px);
+  }
+
+  h2 {
+    font-size: 3rem;
+  }
+
+  .c1 {
+    margin-top: 20px;
+  }
+
+  .text {
+    text-align: justify;
+  }
+
+  p {
+    text-align: justify;
+  }
+</style>
+<title>Edit Page</title>
+
+<section class="Blog">
+  <div class="container c1">
+    <h2> Edit Your Blogs</h2>
+    {% if user.username == 'admin' %}
+    <a href="{% url 'Contacts' %}" class="btn btn-dark contact">Contacts</a>
+    {% endif %}
+    <hr />
+    {% for j in blog %}
+    {% if user.is_authenticated %}
+    {% if user.username == j.Your_Name %}
+    <div class="row">
+      <div class="col-md-4">
+        <br />
+        <h2>{{j.Title}}</h2>
+        <img src="{{j.Choose_Image.url}}" style="width: 100%" />
+      </div>
+      <div class="col-md-8">
+        <br />
+        <h3>
+          Description -
+          <a href="{% url 'create' j.id %}" class="btn btn-dark"><i class="fa-solid fa-download"></i></a>
+          <a href="{% url 'edit_blog' j.id %}" class="btn btn-primary">Edit</a>
+          <a href="{% url 'delete_blog' j.id %}" class="btn btn-danger">Delete</a>
+        </h3>
+        <p class="text-justify">{{j.Description|safe}}</p>
+        <br />
+        By - <b>{{j.Your_Name}} on {{j.time}}</b> &nbsp;
+        <!-- <a href="{% url 'create' j.id %}" class="btn btn-dark"><i class="fa-solid fa-download"></i></a> -->
+        <hr />
+      </div>
+    </div>
+    {% endif %} {% endif %} {% endfor %}
+  </div>
+</section>
+
+<!-- Contact Modal -->
+<div class="modal fade" id="contact" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Contact Form</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'contact' %}" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label class="s1">Name</label>
+            <input type="text" name="name" class="form-control s1" value="{{user.first_name}}" />
+            <label class="s1">Email</label>
+            <input type="email" name="email" class="form-control s1" />
+            <label class="s1">Number</label>
+            <input type="number" name="number" class="form-control s1" />
+            <label class="s1">Address</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="address"></textarea>
+            <br />
+            <button type="submit" class="btn btn-success s1">Submit</button>
+            <button type="reset" class="btn btn-danger s1">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

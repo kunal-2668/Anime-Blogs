@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="Light">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
+</head>
+<style>
+    * {
+        font-family: 'Raleway', sans-serif;
+        margin:0;
+        padding:0;
+    }
+
+    nav {
+        box-shadow: 1px 1px 20px 0px black;
+
+    }
+
+    p {
+        /* margin-top: 0; */
+        /* margin-bottom: 1rem; */
+        display: table;
+        margin: auto 12px;
+    }
+
+    nav.navbar.navbar-expand-lg.bg-transparent {
+        font-size: 24px;
+    }
+
+    .modal-content {
+        /* color: white; */
+        background-image: url(https://images.unsplash.com/photo-1491895200222-0fc4a4c35e18?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80);
+    }
+
+    p.text-center.text-muted {
+        display: table;
+        margin: auto;
+    }
+
+    .nav-item {
+        transition: 0.5s;
+
+    }
+    /*.search {*/
+    /*    transition: 0.5s;*/
+    /*    max-width: 36px;*/
+    /*}*/
+    /*.search:hover{*/
+    /*    max-width: 144px;*/
+    /*}*/
+
+    i.fa-brands.fa-instagram {
+    font-size: 50px;
+}
+i.fa-brands.fa-linkedin{
+    font-size: 50px;
+}
+i.fa-brands.fa-snapchat {
+    font-size: 50px;
+}
+</style>
+
+<body>
+    {% load static %}
+
+    <header>
+        <nav class="navbar navbar-expand-lg bg-transparent">
+            <div class="container n1">
+                <a class="navbar-brand" href="{% url 'home' %}"><i class="fa-solid fa-house"></i></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'addblog' %}">Add Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#contact">Contact us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Edit">Edit</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Profile">Profile</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'main' %}">Login</a>
+                        </li>
+                        {% endif %}
+                </div>
+                </ul>
+                {% if user.is_authenticated %}
+                <div class="search">
+                    <form action="{% url 'search' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group search">
+                        <input type="text" name="search" placeholder="Search Here" class="form-control">
+                        <button type="submit"class="btn btn-info" hidden><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                        </form>
+                </div>
+                <p><a class="nav-link" href="{% url 'Profile' %}"><i class="fa-solid fa-user"></i> {{user}}
+                </p></a>
+                <a href="{% url 'logout' %}" class="btn btn-outline-danger"><i class="fa-solid fa-power-off"></i></a>
+                &nbsp;
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+    {% block content %}
+
+    {% endblock %}
+    <footer class=" container py-3 my-4">
+    <hr>
+        <p class="text-center text-muted">
+        <a href="https://www.instagram.com/kunal_.2668/" target="_blank" ><i class="fa-brands fa-instagram"></i></a> &nbsp;
+        <a href="https://www.snapchat.com/add/kunal_2668?share_id=bsTNLzKCY2k&locale=en-US" target="_blank" ><i class="fa-brands fa-snapchat"></i></a> &nbsp;
+        <a href="https://www.linkedin.com/in/kunal-82921a211" target="_blank"><i class="fa-brands fa-linkedin"></i></a> <br><br>
+
+        © Anime Blogs by KunaL</p>
+    </footer>
+</body>
+
+</html>

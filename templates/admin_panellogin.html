@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Please Login</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  {% load static %}
+  <style>
+    * {
+      font-family: "Raleway", sans-serif;
+    }
+
+    body {
+      background-image: url("https://images.unsplash.com/photo-1636955816868-fcb881e57954?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    h2 {
+      font-size: 2rem;
+    }
+
+    .border {
+      box-shadow: 10px 10px 40px black;
+      border-radius: 20px;
+      display: table;
+      max-width: 60%;
+      margin: 150px auto;
+      padding: 50px;
+      backdrop-filter: blur(7px);
+    }
+
+    .modal-content {
+      /* color: white; */
+      background-image: url("{% static 'bg/addb.jpg' %}");
+      background-repeat: no-repeat;
+    }
+
+    input.form-control.s1 {
+      display: table;
+      margin: auto;
+      width: 70%;
+    }
+
+    label.s1 {
+      margin: auto;
+      display: table;
+    }
+
+    .buttons {
+      margin: auto;
+      display: table;
+    }
+  </style>
+
+  <body>
+    {% for msg in messages %}
+    <div class="alert alert-danger" role="alert">{{msg}} {% endfor %}</div>
+    <section>
+      <div class="container">
+        <div class="border">
+          <h2>Please Login to Continue</h2>
+          <hr />
+          <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label class="s1">Username</label>
+              <input type="text" name="lusername" class="form-control s1" />
+              <label class="s1">Password</label>
+              <input type="password" name="lpassword" class="form-control s1" />
+              <br />
+              <div class="buttons">
+                <button type="submit" class="btn btn-success s1">Login</button>
+                or
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#signupform"
+                >
+                  Signup
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Signup modal -->
+      <div
+        class="modal fade"
+        id="signupform"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Signup Form</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form method="post" action="{% url 'signup' %}">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="f2">First Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="first_name"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="f2">Last Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="last_name"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="f2">Username</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="username"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="f2">Email address</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        name="email"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="f2" for="exampleInputPassword1"
+                        >Password</label
+                      >
+                      <input
+                        type="password"
+                        class="form-control"
+                        name="password"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="f2" for="exampleInputPassword1"
+                        >Confirm Password</label
+                      >
+                      <input
+                        type="password"
+                        class="form-control"
+                        name="password2"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary" name="signup">
+                  Signup
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
