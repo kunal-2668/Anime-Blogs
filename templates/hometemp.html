@@ -48,6 +48,15 @@
     transform: scale(1.1);
     box-shadow: 9px 8px 40px 0px black;
   }
+  .filter{
+    width: 10%;
+  }
+
+  @media screen and (max-width:480px) {
+    .filter{
+    width: 30%;
+    }
+  }
 </style>
 <title>Anime Blogs</title>
 
@@ -61,6 +70,30 @@
     </div>
     {% endfor %}
     {% endif %}
+
+    <div class="filter">
+      <label for="">Filter By</label>
+      <select id="query" class="form-control" onchange="select()">
+        <option selected ></option>
+        <option value="Title">By Name </option>
+        <option value="time">By Time</option>
+        <option value="?">Popular</option>
+      </select>
+
+      <script>
+        function select(){
+          let a = document.getElementById('query');
+          console.log(a.value)
+          if (a.value == 'Title'){
+            window.location = "{% url 'filter' 'Title' %}";
+          }else if(a.value == 'time'){
+            window.location = "{% url 'filter' 'time' %}";
+          }else if(a.value == '?'){
+            window.location = "{% url 'filter' '?' %}";
+          }
+        }
+      </script> 
+    </div>
     <div class="row">
         {% for j in blog %}
       <div class="col-lg-4 text-center">
@@ -110,5 +143,16 @@
     </div>
   </div>
 </div>
+
+
+
+<!-- 
+{% if messages %}
+{% for i in messages %}
+<script>
+  alert('{{i}}')
+</script>
+{% endfor %}
+{% endif %} -->
 
 {% endblock %}

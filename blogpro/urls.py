@@ -43,5 +43,6 @@ urlpatterns = [
     path('addprofile', views.add_profile_photo, name='addprofile'),
     path('Profile', views.showprofile_photo, name='Profile'),
     path('updateprofile<int:id>', views.update_profile, name='updateprofile'),
+    path('filter/?/<str:query>', views.filter, name='filter'),
 
 ]+ static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

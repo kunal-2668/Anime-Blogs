@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure--nj0itn8bvkdg$k44h2fq1%auxlzgy9_!00cxei0wsh$yj76#x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -144,7 +144,7 @@ cloudinary.config(
   cloud_name = "kunalserver",
   api_key = "632154883829314",
   api_secret = "cqJiLCwR6-GzDJpKZ4ZI9HfAcms",
-  api_proxy = "http://proxy.server:3128",
+#   api_proxy = "http://proxy.server:3128",
   # change if not working
   secure = True
 

@@ -16,7 +16,7 @@ from django.views.decorators.cache import cache_control
 # Create your views here.
 
 def home(request):
-    blog = Blog.objects.order_by("?")
+    blog = Blog.objects.filter(status=True).order_by('?')
     return render (request, 'hometemp.html',{'blog':blog})
 
 
@@ -32,7 +32,7 @@ def search(request):
     searchinput = request.POST['search']
     if Blog.objects.filter(Title__contains = searchinput).exists():
         blog = Blog.objects.filter(Title__contains = searchinput)
-        return render (request, 'index.html',{'blog':blog})
+        return render (request, 'hometemp.html',{'blog':blog})
     else:
         messages.info(request,"No Search Results")
         return redirect('home')
@@ -110,6 +110,7 @@ def addblog(request):
         form = Addblog(request.POST,request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request,"Your Blog will get Inspected by Admin, It will be Published Soon!")
             return redirect('home')
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -288,3 +289,9 @@ def update_profile(request,id):
 
     else :
         return redirect('addprofile')
+    
+
+
+def filter(request,query):
+    blog = Blog.objects.filter(status=True).order_by(query)
+    return render (request, 'hometemp.html',{'blog':blog})

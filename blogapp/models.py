@@ -21,6 +21,7 @@ class Blog(models.Model):
     Description = RichTextField(blank=True,null=True)
     Your_Name = models.CharField(max_length=40)
     time = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(null=True,blank=True,default=False)
 
     class Meta:
       ordering = ['-time']

@@ -11,7 +11,7 @@ class Addblog(forms.ModelForm):
 
         widgets = {
             'Title' : TextInput(attrs={'placeholder' : 'Enter Title'}),
-            'Your_Name' : TextInput(attrs={'id':'username','type':'hidden'})
+            'Your_Name' : TextInput(attrs={'id':'username','type':'hidden'}),
         }
 
 
