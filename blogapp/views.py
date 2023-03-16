@@ -17,7 +17,8 @@ from django.views.decorators.cache import cache_control
 
 def home(request):
     blog = Blog.objects.filter(status=True).order_by('?')
-    return render (request, 'hometemp.html',{'blog':blog})
+    userblog = Blog.objects.filter(Your_Name=request.user)
+    return render (request, 'hometemp.html',{'blog':blog,'userblog':userblog})
 
 
 def readmore(request,id):

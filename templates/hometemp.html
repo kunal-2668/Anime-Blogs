@@ -80,6 +80,7 @@
         <option value="?">Popular</option>
       </select>
 
+    
       <script>
         function select(){
           let a = document.getElementById('query');
@@ -144,8 +145,12 @@
   </div>
 </div>
 
-
-
+{% if userblog %}
+{% else %}
+<script>
+  document.getElementById('editbtn').style.display='none'
+</script>
+{% endif %}
 <!-- 
 {% if messages %}
 {% for i in messages %}
